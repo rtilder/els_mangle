@@ -1,3 +1,7 @@
+## Warning!
+
+There is a *LOT* of log data.  At least 2-3GB per hour.  If you run the logshare command for more than an a few minutes of records, you may regret it.
+
 ## How to use
 
 Install golang.  Follow the installation instructions for [Cloudflare's log CLI tool](https://github.com/cloudflare/logshare).  Follow its instructions for querying your logs and then pipe the output of the file to els_mangle.

@@ -1,21 +1,29 @@
 #!/usr/bin/env python2.7
 
+import argparse
 import csv
-import datetime
 import json
 import sys
-import time
 
 import woothee
 
 
-def main():
-    blob = json.load(sys.stdin)
+def main(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('infile', nargs='?', type=argparse.FileType('r'),
+                        default=sys.stdin)
+    parser.add_argument('outfile', nargs='?', type=argparse.FileType('w'),
+                        default=sys.stdout)
+    args = parser.parse_args(args)
 
-    csvwriter = csv.writer(sys.stdout)
-    # with open("hoosegow.csv", "w") as csvfile:
-    #    csvwriter = csv.writer(csvfile)
-    for log_entry in blob:
+    csvwriter = csv.writer(args.outfile)
+    while True:
+        line = args.infile.readline().strip()
+        if not line:
+            break
+
+        log_entry = json.loads(line)
+
         device_type = log_entry['client']['deviceType']
         ua_string = log_entry['clientRequest']['userAgent']
         woot = woothee.parse(ua_string)
@@ -26,3 +34,6 @@ def main():
             woot['name'],
             woot['version']])
 
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
