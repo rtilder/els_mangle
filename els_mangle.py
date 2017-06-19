@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 
 import argparse
 import csv
@@ -22,7 +22,7 @@ def main(args):
         if not line:
             break
 
-        log_entry = json.loads(line)
+        log_entry = json.loads(line.encode('utf-8'))
 
         device_type = log_entry['client']['deviceType']
         ua_string = log_entry['clientRequest']['userAgent']
